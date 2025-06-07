@@ -1,0 +1,105 @@
+mempool.example.com {
+	# Signet frontend
+	handle /signet {
+		reverse_proxy 127.0.0.1:4200 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Testnet4 frontend
+	handle /testnet4 {
+		reverse_proxy 127.0.0.1:4200 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Mainnet APIs
+	handle /api/v1/ws {
+		reverse_proxy 127.0.0.1:8999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /api/v1* {
+		reverse_proxy 127.0.0.1:8999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /ws {
+		reverse_proxy 127.0.0.1:8999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Signet APIs
+	handle /signet/api/v1/ws {
+		rewrite * /
+		reverse_proxy 127.0.0.1:38999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /signet/api/v1* {
+		uri strip_prefix /signet
+		reverse_proxy 127.0.0.1:38999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /signet/api/* {
+		uri replace /signet/api/ /api/v1/
+		reverse_proxy 127.0.0.1:38999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /signet/ws {
+		rewrite * /
+		reverse_proxy 127.0.0.1:38999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Testnet4 APIs
+	handle /testnet4/api/v1/ws {
+		rewrite * /
+		reverse_proxy 127.0.0.1:48999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /testnet4/api/v1* {
+		uri strip_prefix /testnet4
+		reverse_proxy 127.0.0.1:48999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /testnet4/api/* {
+		uri replace /testnet4/api/ /api/v1/
+		reverse_proxy 127.0.0.1:48999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /testnet4/ws {
+		rewrite * /
+		reverse_proxy 127.0.0.1:48999 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Mainnet frontend
+	handle {
+		reverse_proxy 127.0.0.1:4200 {
+			header_up Host {upstream_hostport}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+}

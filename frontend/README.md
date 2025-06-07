@@ -94,7 +94,7 @@ npm run serve
 
 The `npm run build` command from step 1 above should have generated a `dist` directory. Put the contents of `dist/` onto your web server.
 
-You will probably want to set up a reverse proxy, TLS, etc. There are sample nginx configuration files in the top level of the repository for reference, but note that support for such tasks is outside the scope of this project.
+You will probably want to set up a reverse proxy, TLS, etc. There are sample Caddy and nginx configuration files in the top level of the repository for reference, but note that support for such tasks is outside the scope of this project.
 
 ## Translations: Transifex Project
 
